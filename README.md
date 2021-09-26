@@ -33,4 +33,4 @@ In this challenge, the following skills are applied:
 * Query the last 12 months of temperature observation data for this station  
 * Plot in a histogram using bins = 12  
 
-![station_histogram](Images/histogram.png)
+![station_histogram](Images/station-histogram.png)
