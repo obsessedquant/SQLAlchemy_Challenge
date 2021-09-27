@@ -39,17 +39,19 @@ def welcome():
 
 @app.route("/api/v1.0/precipitation")
 def get_precipitation():
-    # Create our session (link) from Python to the DB
+
     session = Session(engine)
 
-    """Return a list of all passenger names"""
-    # Query all passengers
-    prec_data = session.query(Measurement.date,Measurement.prcp).all()
+    data = engine.execute("SELECT date FROM measurement ORDER BY date DESC LIMIT 1")
+    datez = [list(x) for x in data]
+    most_recent_date = datez[0][0]
+    last_twelve_months_date = dt.datetime.strptime(most_recent_date, '%Y-%m-%d') - dt.timedelta(days=365)
+
+    prec_data = session.query(Measurement.date,Measurement.prcp).\
+        filter(Measurement.date >= last_twelve_months_date).all()
 
     session.close()
 
-    # Convert list of tuples into normal list
-    # all_names = list(np.ravel(results))
     prcp_data = []
     for date, prcp in prec_data:
         prcp_dict = {}
@@ -57,23 +59,18 @@ def get_precipitation():
         prcp_dict["prcp"] = prcp
         prcp_data.append(prcp_dict)
 
-
     return jsonify(prcp_data)
 
 
 @app.route("/api/v1.0/stations")
 def get_stations():
-    # Create our session (link) from Python to the DB
+
     session = Session(engine)
 
-    """Return a list of all passenger names"""
-    # Query all passengers
     station_results = session.query(Station.id,Station.station,Station.name,Station.latitude,Station.longitude,Station.elevation).all()
 
     session.close()
 
-    # Convert list of tuples into normal list
-    # all_names = list(np.ravel(results))
     stations_data = []
     for id, station, name, latitude, longitude, elevation in station_results:
         station_dict = {}
@@ -85,18 +82,14 @@ def get_stations():
         station_dict["elevation"] = elevation
         stations_data.append(station_dict)
 
-
     return jsonify(stations_data)
-
 
 
 @app.route("/api/v1.0/tobs")
 def get_tobs():
-    # Create our session (link) from Python to the DB
+
     session = Session(engine)
 
-    """Return a list of all passenger names"""
-    # Query all passengers
     data = engine.execute("SELECT date FROM measurement ORDER BY date DESC LIMIT 1")
     datez = [list(x) for x in data]
     most_recent_date = datez[0][0]
@@ -113,8 +106,6 @@ def get_tobs():
 
     session.close()
 
-    # Convert list of tuples into normal list
-    # all_names = list(np.ravel(results))
     tobs_data = []
     for station, tobs in temperature:
         tobs_dict = {}
@@ -122,9 +113,7 @@ def get_tobs():
         tobs_dict["tobs"] = tobs
         tobs_data.append(tobs_dict)
 
-
     return jsonify(tobs_data)
-
 
 
 @app.route("/api/v1.0/<start>")
@@ -135,13 +124,11 @@ def get_start(start):
     print(type(start))
     print(type(start_date))
 
-    # Create our session (link) from Python to the DB
     session = Session(engine)
 
     data = engine.execute("SELECT date FROM measurement ORDER BY date DESC LIMIT 1")
     datez = [list(x) for x in data]
     most_recent_date = datez[0][0]
-    # last_twelve_months_date = dt.datetime.strptime(most_recent_date, '%Y-%m-%d') - dt.timedelta(days=365)
 
     query_results = session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs),\
         func.max(Measurement.tobs)).\
