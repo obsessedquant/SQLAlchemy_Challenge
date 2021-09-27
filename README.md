@@ -41,7 +41,10 @@ In this challenge, the following skills are applied:
 * Convert query results to a dictionary and return a JSON representation through the API  
 * Return a JSON list of stations data  
 * Query the dates and temperature observations of the most active station for the last year od data and return a JSON list through the API  
-* Return a JSON list of the minimum temperature, the average temperature, and the max temperature for a given start-end date range through the API  
+* Return a JSON list of the minimum temperature, the average temperature, and the max temperature for a given start-end date range through the API 
+
+![Flask_API](Images/Flask_API.png)
+
 ### *Temperature Analysis I*
 
 Hawaii is reputed to enjoy mild weather all year. Is there a meaningful difference between the temperature in, for example, June and December?  
@@ -59,3 +62,8 @@ In this analysis we do the following:
 * Plot the data using a bar chart  
 * Calculate the daily rainfall for the same period and return the data formatted by the weather stations  
 * Calculate normal daily temperatures for the week and use an area plot to show the data  
+
+
+![temperature](Images/temperature.png)
+
+![daily_normals](Images/daily_normals.png)
