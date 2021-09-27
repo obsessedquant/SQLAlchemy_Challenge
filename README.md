@@ -66,4 +66,4 @@ In this analysis we do the following:
 
 ![temperature](Images/temperature.png)
 
-![daily_normals](Images/daily_normals.png)
+![daily_normals](Images/daily-normals.png)
